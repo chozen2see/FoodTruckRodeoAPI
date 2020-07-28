@@ -1,8 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# do not send sensitive info
-appsettings.json
-
 # compiled output
 /dist
 /tmp
@@ -48,5 +45,11 @@ testem.log
 .DS_Store
 Thumbs.db
 *.db
+*.db-shm
+*.db-wal
 bin
 obj
+# do not send sensitive info
+appsettings.json
+.vscode/
+
