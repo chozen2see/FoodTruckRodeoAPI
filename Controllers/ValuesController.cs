@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Controllers
 {
+  // everything inside this controller must be an authorized request. add Authentication middleware to Startup.cs
+  [Authorize]
+
   // attribute based routing. 
   // will be mapped as endpoint api/[first part of class name without controller]
   // http://localhost:5000/api/values
   [Route("api/[controller]")]
   [ApiController]
+
+// inherits from base class ControllerBase which gives access to HTTP Requests and Actions w/o view support (comes from angular). if using views use Controller for base
   public class ValuesController : ControllerBase
   {
     // to get values from db we need to inject DataContext class into our controller
@@ -35,6 +41,9 @@ namespace DatingApp.API.Controllers
       // return status ok 200 and values
       return Ok(values);
     }
+
+    // will allow access to this route without authentication
+    [AllowAnonymous]
 
     // GET api/values/5 - READ ONE using route parameter
     [HttpGet("{id}")]
