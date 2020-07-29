@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
+using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +72,27 @@ namespace DatingApp.API
         // if dev environment and there is an exception use dev friendly page to display
         // global exception handler
         app.UseDeveloperExceptionPage();
+      } else {
+        // Adds a middleware to the pipeline that will catch exceptions, log them, and re-execute the request in an alternate pipeline. The request will not be re-executed if the response has already started.
+        app.UseExceptionHandler(builder => {
+          // Adds a terminal middleware delegate to the application's request pipeline.
+          builder.Run(async context => {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            // store the error so it can be accessed
+            var error = context.Features.Get<IExceptionHandlerFeature>();
+
+            // if it's an actual error
+            if (error != null) {
+              // use Extension to add messages to header
+              context.Response.AddApplicationError(error.Error.Message);
+              // write error message into HTTP Response
+              await context
+              // use an extension method to add custom errors to response
+              .Response.WriteAsync(error.Error.Message);
+            }
+          });
+        });
       }
 
       // app.UseHttpsRedirection();

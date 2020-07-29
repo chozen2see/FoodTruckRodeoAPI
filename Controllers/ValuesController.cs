@@ -29,6 +29,9 @@ namespace DatingApp.API.Controllers
 
     }
 
+    // will allow access to this route without authentication
+    [AllowAnonymous]
+
     // GET api/values - READ ALL 
     [HttpGet]
     // replace ActionResult with IActionResult to access HTTP responses
