@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DatingApp.API.Migrations
+namespace FoodTruckRodeo.API.Migrations
 {
   public partial class InitialCreate : Migration
   {// what will happen when migration is applied

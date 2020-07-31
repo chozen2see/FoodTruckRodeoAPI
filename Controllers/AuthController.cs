@@ -4,13 +4,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Data;
-using DatingApp.API.DTOs;
+using FoodTruckRodeo.API.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 
-namespace DatingApp.API.Controllers
+namespace FoodTruckRodeo.API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -21,7 +21,8 @@ namespace DatingApp.API.Controllers
     private readonly IConfiguration _config;
     public AuthController(
       IAuthRepository repo, IConfiguration config
-    ){
+    )
+    {
       _config = config;
       _repo = repo;
     }

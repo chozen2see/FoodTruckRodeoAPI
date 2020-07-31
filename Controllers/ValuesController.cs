@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatingApp.API.Controllers
+namespace FoodTruckRodeo.API.Controllers
 {
   // everything inside this controller must be an authorized request. add Authentication middleware to Startup.cs
   [Authorize]
@@ -18,7 +18,7 @@ namespace DatingApp.API.Controllers
   [Route("api/[controller]")]
   [ApiController]
 
-// inherits from base class ControllerBase which gives access to HTTP Requests and Actions w/o view support (comes from angular). if using views use Controller for base
+  // inherits from base class ControllerBase which gives access to HTTP Requests and Actions w/o view support (comes from angular). if using views use Controller for base
   public class ValuesController : ControllerBase
   {
     // to get values from db we need to inject DataContext class into our controller

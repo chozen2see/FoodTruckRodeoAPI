@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace DatingApp.API
+namespace FoodTruckRodeo.API
 {
   public class Program
   {

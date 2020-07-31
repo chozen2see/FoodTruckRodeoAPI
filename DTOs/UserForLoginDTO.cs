@@ -1,4 +1,4 @@
-namespace DatingApp.API.DTOs
+namespace FoodTruckRodeo.API.DTOs
 {
   public class UserForLoginDTO
   {

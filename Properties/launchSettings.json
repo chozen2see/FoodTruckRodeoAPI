@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DatingApp.API": {
+    "FoodTruckRodeo.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
