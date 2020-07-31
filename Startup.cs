@@ -42,7 +42,9 @@ namespace DatingApp.API
       // database provider: sqlite
       // connection string: 
       services.AddDbContext<DataContext>(db => db.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
       services.AddControllers();
+      
       // make CORS service available to be used as middleware
       services.AddCors();
 
