@@ -1,0 +1,51 @@
+[
+  {
+    "Username": "Cassandra",
+    "Password": "password",
+    "Name": "Cassandra Gaines",
+    "Email": "cassandragaines@ziore.com",
+    "PhoneNumber": "(980) 437-3287"
+  },
+  {
+    "Username": "Ollie",
+    "Password": "password",
+    "Name": "Ollie Mckee",
+    "Email": "olliemckee@ziore.com",
+    "PhoneNumber": "(828) 425-2538"
+  },
+  {
+    "Username": "Lydia",
+    "Password": "password",
+    "Name": "Lydia Curtis",
+    "Email": "lydiacurtis@ziore.com",
+    "PhoneNumber": "(973) 560-2335"
+  },
+  {
+    "Username": "Booker",
+    "Password": "password",
+    "Name": "Booker Cooper",
+    "Email": "bookercooper@ziore.com",
+    "PhoneNumber": "(900) 553-2281"
+  },
+  {
+    "Username": "Kemp",
+    "Password": "password",
+    "Name": "Kemp Jennings",
+    "Email": "kempjennings@ziore.com",
+    "PhoneNumber": "(943) 550-3859"
+  },
+  {
+    "Username": "Clarke",
+    "Password": "password",
+    "Name": "Clarke Tyson",
+    "Email": "clarketyson@ziore.com",
+    "PhoneNumber": "(899) 526-2981"
+  },
+  {
+    "Username": "Chozen",
+    "Password": "password",
+    "Name": "Chozen See",
+    "Email": "chozen@ziore.com",
+    "PhoneNumber": "(909) 225-3456"
+  }
+]

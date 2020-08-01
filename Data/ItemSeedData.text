@@ -1,0 +1,115 @@
+INSERT INTO ITEMS(
+NAME, DESCRIPTION, PRICE, SIZE, ISSOLDOUT, MENUID
+)
+-- BREAKFAST
+SELECT 'Bagel', 'Plain with butter.', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Bagel', 'Plain without butter.', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Bagel', 'Toasted with butter.', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Bagel', 'Toasted without butter.', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Turkey Bacon', 'This health option comes with 4 strips of bacon with 2 eggs.', 4.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Egg (Scrambled)', 'How do you like your egg(s)?', 1.00, '1', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Egg (Boiled)', 'How do you like your egg(s)?', 1.00, '1', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Grits', 'Perfect for colder mornings or along side bacon and eggs. ', 2.00, 'bowl', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Buttered Roll', '', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+SELECT 'Waffle Fries', 'Seasoned to perfection.', 1.00, '', 'false', ID FROM MENUS WHERE NAME = 'Breakfast'
+UNION
+
+--LUNCH / DINNER
+SELECT 'BLT (turkey bacon)', 'Looking for something on the lighter side? Try our scrumptous turkey bacon, lettuce and tomato sandwich', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Fish (whiting)', 'Golden fried to perfection with tartar and hot sauce on the side.', 6.00, 'Regular (2 pieces)', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Fish (whiting)', 'Golden fried to perfection with tartar and hot sauce on the side.', 8.00, 'Large (3 pieces)', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Soul Dog', 'Bun sized hot dog with mustard, chili and onions.', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Hot Dog', 'Turkey hot dog. Use our condiments bar to add some soul to your dog.', 2.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Burger', 'Grilled beef burger (plain). Use our condiments bar to add some soul to your burger.', 2.50, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Cheese Burger', 'Grilled beef burger with cheese. Use our condiments bar to add some soul to your burger.', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Cali Burger', 'Grilled beef burger cali style with homemade guacamole and bacon.', 5.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+SELECT 'Soul Burger', 'Grilled beef burger with cheese, lettuce, pickles, tomatoes, onions, and house BBQ sauce.', 5.00, '', 'false', ID FROM MENUS WHERE NAME = 'Lunch / Dinner'
+UNION
+
+-- Meals / Platters
+SELECT 'Meaty Whiting Filet', 'Two Soul Sides are included with this meal.', 10.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+SELECT 'Cod/Sole/Flounder', 'Two Soul Sides are included with this meal.', 12.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+SELECT 'Catfish', 'Two Soul Sides are included with this meal.', 12.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+SELECT 'Fried Chicken', 'Two Soul Sides are included with this meal.', 10.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+SELECT 'Oxtails', 'Two Soul Sides are included with this meal.', 12.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+SELECT 'Spaghetti / w Corn muffin', 'Two Soul Sides are included with this meal.', 12.00, '', 'false', ID FROM MENUS WHERE NAME = 'Meals / Platters'
+UNION
+
+-- Soul Side Items
+SELECT 'Collard Greens', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Macaroni and Cheese', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Potato Salad', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Corn/Corn on the Cob', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Mashed Potatoes', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Rice', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'House Salad', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+UNION
+SELECT 'Candied Yams', '', 3.00, '', 'false', ID FROM MENUS WHERE NAME = 'Side Items'
+
+UNION
+-- Beverages
+SELECT 'Coffee', 'Black. Cream and Sugar available at our condiments stand.', 1.00, '12 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Hot Tea', 'Cream and Sugar available at our condiments stand.', 1.00, '12 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Hot Cocoa', '', 1.00, '12 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Sweet Tea', '', 1.50, '16 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Milk', '', 1.00, '12 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Orange Juice', '', 1.00, '10 oz bottle', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Apple Juice', '', 1.00, '10 oz bottle', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Canned Soda', 'Assorted variety.', 1.00, '1 can', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Bottle Drinks including water.', '', 1.50, '1 bottle', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Snapple', 'Assorted flavors.', 2.00, '16 oz bottle', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'Vitamin Water', '', 2.00, '1 bottle', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'REAL ICE CREAM SHAKES', '', 3.00, 'Regular', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'FRESH SQUEEZED LEMONADE', '', 2.00, '16 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+UNION
+SELECT 'VIRGIN PINA COLADA', '', 3.00, '16 oz cup', 'false', ID FROM MENUS WHERE NAME = 'Beverages'
+
+UNION
+-- Desserts
+SELECT 'Red Velvet Cake', 'Three layered cake with homemade cream cheese frosting.', 3.00, 'Slice', 'false', ID FROM MENUS WHERE NAME = 'Desserts'
+UNION
+SELECT 'German Chocolate', 'Three layered cake with homemade German Chocolate frosting. (Contains nuts and coconut)', 3.00, 'Slice', 'false', ID FROM MENUS WHERE NAME = 'Desserts'
+UNION
+SELECT 'Lemon Pound Cake', 'With lemon raspberry drizzle on the side.', 3.00, 'Slice', 'false', ID FROM MENUS WHERE NAME = 'Desserts'
+UNION
+SELECT 'Peach Cobbler', 'With scoop of vanilla ice cream.', 3.50, 'Slice', 'false', ID FROM MENUS WHERE NAME = 'Desserts'

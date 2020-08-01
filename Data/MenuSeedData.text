@@ -1,0 +1,14 @@
+INSERT INTO MENUS(
+NAME, ISACTIVE, FOODTRUCKID
+)
+SELECT 'Breakfast', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul'
+UNION
+SELECT 'Lunch / Dinner', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul'
+UNION
+SELECT 'Meals / Platters', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul'
+UNION
+SELECT 'Side Items', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul'
+UNION
+SELECT 'Beverages', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul'
+UNION
+SELECT 'Desserts', 1, ID FROM FoodTrucks WHERE name = 'Rolling Soul';
