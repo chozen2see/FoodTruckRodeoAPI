@@ -12,13 +12,20 @@ namespace FoodTruckRodeo.API.Helpers
     {
       CreateMap<User, UserForListDTO>()
         .ForMember(
-            dest => dest.FoodTruckId, 
-            opt => opt.MapFrom(
-                src => src.FoodTruckUsers
-                .FirstOrDefault(
-                    // if more food trucks are added will need to change this logic to isActive. Must return bool from lambda
-                    ft => ft.FoodTruckId != 0
-                ).FoodTruckId));
+          dest => dest.FoodTruckId, 
+          opt => opt.MapFrom(
+              src => src.FoodTruckUsers
+              .FirstOrDefault(
+                  // if more food trucks are added will need to change this logic to isActive. Must return bool from lambda
+                  ft => ft.IsActiveFoodTruck
+              ).FoodTruckId))
+        .ForMember(
+          dest => dest.IsAdmin,
+          opt => opt.MapFrom(
+            src => src.FoodTruckUsers
+            .FirstOrDefault(ft => ft.IsActiveFoodTruck).IsAdmin
+          )
+        );
       CreateMap<Menu, MenuForListDTO>();
       CreateMap<Item, ItemsForMenuDTO>();
     }

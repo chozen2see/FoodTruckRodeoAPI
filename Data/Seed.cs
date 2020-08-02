@@ -15,7 +15,7 @@ namespace Data
     {
       if (!context.FoodTrucks.Any())
       {
-        var foodTruckData = System.IO.File.ReadAllText("Data/FoodTruckSeedData.json");
+        var foodTruckData = System.IO.File.ReadAllText("Data/SeedData/FoodTruckSeedData.json");
 
         var foodTrucks = JsonConvert.DeserializeObject<List<FoodTruck>>(foodTruckData);
 
@@ -32,7 +32,7 @@ namespace Data
     {
       if (!context.FoodTruckUsers.Any())
       {
-        var foodTruckData = System.IO.File.ReadAllText("Data/FoodTruckUserSeedData.text");
+        var foodTruckData = System.IO.File.ReadAllText("Data/SeedData/FoodTruckUserSeedData.text");
 
         // seed remaining data
         context.Database.ExecuteSqlRaw(foodTruckData);
@@ -44,7 +44,7 @@ namespace Data
     {
       if (!context.Menus.Any())
       {
-        var menuData = System.IO.File.ReadAllText("Data/MenuSeedData.text");
+        var menuData = System.IO.File.ReadAllText("Data/SeedData/MenuSeedData.text");
 
         // seed remaining data
         context.Database.ExecuteSqlRaw(menuData);
@@ -56,7 +56,7 @@ namespace Data
     {
       if (!context.Items.Any())
       {
-        var menuData = System.IO.File.ReadAllText("Data/ItemSeedData.text");
+        var menuData = System.IO.File.ReadAllText("Data/SeedData/ItemSeedData.text");
 
         // seed remaining data
         context.Database.ExecuteSqlRaw(menuData);
@@ -69,7 +69,7 @@ namespace Data
       // check to see if users already seeded
       if (!context.Users.Any())
       {
-        var userData = System.IO.File.ReadAllText("Data/UserSeedData.json");
+        var userData = System.IO.File.ReadAllText("Data/SeedData/UserSeedData.json");
 
         var users = JsonConvert.DeserializeObject<List<User>>(userData);
 

@@ -8,6 +8,8 @@ namespace Models
 
     public bool IsAdmin { get; set; }
 
+    public bool IsActiveFoodTruck { get; set; }
+
     // EF Core Relationships: 
     // FoodTruck (many) and User (many) Models 
     public int FoodTruckId { get; set; }

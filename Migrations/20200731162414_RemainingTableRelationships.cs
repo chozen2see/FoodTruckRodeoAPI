@@ -97,6 +97,7 @@ namespace FoodTruckRodeo.API.Migrations
             Id = table.Column<int>(nullable: false)
                   .Annotation("Sqlite:Autoincrement", true),
             IsAdmin = table.Column<bool>(nullable: false),
+            IsActiveFoodTruck = table.Column<bool>(nullable: false),
             FoodTruckId = table.Column<int>(nullable: false),
             UserId = table.Column<int>(nullable: false)
           },

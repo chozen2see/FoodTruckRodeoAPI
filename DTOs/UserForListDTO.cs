@@ -11,6 +11,8 @@ namespace FoodTruckRodeo.API.DTOs
 
     public string PhoneNumber { get; set; }
 
+    public bool IsAdmin { get; set; }
+
     public int FoodTruckId { get; set; }
   }
 }

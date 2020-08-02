@@ -177,6 +177,9 @@ namespace FoodTruckRodeo.API.Migrations
             b.Property<int>("FoodTruckId")
                       .HasColumnType("INTEGER");
 
+            b.Property<bool>("IsActiveFoodTruck")
+                      .HasColumnType("INTEGER");
+
             b.Property<bool>("IsAdmin")
                       .HasColumnType("INTEGER");
 
