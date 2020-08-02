@@ -16,6 +16,8 @@ namespace Models
 
     public bool IsSoldOut { get; set; }
 
+    public int SortOrder { get; set; }
+
     // EF Core Relationships: 
     // Menu(one) and Item (many) Models 
     public int MenuId { get; set; }

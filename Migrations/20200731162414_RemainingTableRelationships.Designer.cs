@@ -216,6 +216,9 @@ namespace FoodTruckRodeo.API.Migrations
             b.Property<string>("Size")
                       .HasColumnType("TEXT");
 
+            b.Property<int>("SortOrder")
+                      .HasColumnType("INTEGER");
+
             b.HasKey("Id");
 
             b.HasIndex("MenuId");

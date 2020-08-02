@@ -174,6 +174,7 @@ namespace FoodTruckRodeo.API.Migrations
             Price = table.Column<float>(nullable: false),
             Size = table.Column<string>(nullable: true),
             IsSoldOut = table.Column<bool>(nullable: false),
+            SortOrder = table.Column<int>(nullable: true),
             MenuId = table.Column<int>(nullable: false)
           },
           constraints: table =>
