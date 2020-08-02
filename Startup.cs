@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Data;
 using FoodTruckRodeo.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,6 +59,9 @@ namespace FoodTruckRodeo.API
 
       // make CORS service available to be used as middleware
       services.AddCors();
+
+      // use AutoMapper to map between DTOs and Models. Give assembly where AutoMapper profiles will be defined.
+      services.AddAutoMapper(typeof(FoodTruckRepository).Assembly);
 
       // instance of service is created once per scope
       // <Interface, Implementation>

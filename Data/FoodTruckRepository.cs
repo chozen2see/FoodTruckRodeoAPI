@@ -104,12 +104,14 @@ namespace Data
 
     public async Task<IEnumerable<Menu>> GetMenus()
     {
-      var menus = await _context.Menus.ToListAsync();
+      var menus = await _context.Menus.
+      Include(i => i.Items).ToListAsync();
       return menus;
     }
     public async Task<IEnumerable<User>> GetUsers()
     {
-      var users = await _context.Users.ToListAsync();
+      var users = await _context.Users.
+      Include(u => u.FoodTruckUsers).ToListAsync();
       return users;
     }
     
