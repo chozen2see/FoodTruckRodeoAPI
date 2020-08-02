@@ -23,7 +23,8 @@ namespace Models
     // public int UserId { get; set; }
     public FoodTruckUser FoodTruckUser { get; set; }
 
-    // Cart (one) and CartDetail (many) Models 
-    public ICollection<CartDetail> CartDetails { get; set; }
+    // Cart (many) and Item (many) Models 
+    public ICollection<CartItemDetail> CartItemDetails { get; set; }
+
   }
 }

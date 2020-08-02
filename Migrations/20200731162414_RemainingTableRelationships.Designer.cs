@@ -95,19 +95,16 @@ namespace FoodTruckRodeo.API.Migrations
             b.ToTable("Carts");
           });
 
-      modelBuilder.Entity("Models.CartDetail", b =>
+      modelBuilder.Entity("Models.CartItemDetail", b =>
           {
             b.Property<int>("Id")
                       .ValueGeneratedOnAdd()
                       .HasColumnType("INTEGER");
 
-            b.Property<int>("CardId")
-                      .HasColumnType("INTEGER");
-
             b.Property<int?>("CartId")
                       .HasColumnType("INTEGER");
 
-            b.Property<int>("FoodId")
+            b.Property<int>("ItemId")
                       .HasColumnType("INTEGER");
 
             b.Property<int>("Quantity")
@@ -117,7 +114,7 @@ namespace FoodTruckRodeo.API.Migrations
 
             b.HasIndex("CartId");
 
-            b.ToTable("CartDetails");
+            b.ToTable("CartItemDetails");
           });
 
       modelBuilder.Entity("Models.ContactRequest", b =>
@@ -238,6 +235,9 @@ namespace FoodTruckRodeo.API.Migrations
             b.Property<bool>("IsActive")
                       .HasColumnType("INTEGER");
 
+            b.Property<int>("SortOrder")
+                      .HasColumnType("INTEGER");
+
             b.Property<string>("Name")
                       .HasColumnType("TEXT");
 
@@ -309,10 +309,10 @@ namespace FoodTruckRodeo.API.Migrations
                       .IsRequired();
           });
 
-      modelBuilder.Entity("Models.CartDetail", b =>
+      modelBuilder.Entity("Models.CartItemDetail", b =>
           {
             b.HasOne("Models.Cart", null)
-                      .WithMany("CartDetails")
+                      .WithMany("CartItemDetails")
                       .HasForeignKey("CartId");
           });
 

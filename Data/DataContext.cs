@@ -32,11 +32,11 @@ namespace Data
 
     public DbSet<Item> Items { get; set; }
 
-    public DbSet<FoodTruckUser> FoodTruckUsers { get; set; }    
+    public DbSet<FoodTruckUser> FoodTruckUsers { get; set; }
 
     public DbSet<Cart> Carts { get; set; }
 
-    public DbSet<CartDetail> CartDetails { get; set; }
+    public DbSet<CartItemDetail> CartItemDetails { get; set; }
 
   }
 }

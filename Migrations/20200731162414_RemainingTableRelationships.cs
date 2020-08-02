@@ -124,6 +124,7 @@ namespace FoodTruckRodeo.API.Migrations
             Id = table.Column<int>(nullable: false)
                   .Annotation("Sqlite:Autoincrement", true),
             Name = table.Column<string>(nullable: true),
+            SortOrder = table.Column<int>(nullable: true),
             IsActive = table.Column<bool>(nullable: false),
             FoodTruckId = table.Column<int>(nullable: false)
           },
@@ -187,21 +188,20 @@ namespace FoodTruckRodeo.API.Migrations
           });
 
       migrationBuilder.CreateTable(
-          name: "CartDetails",
+          name: "CartItemDetails",
           columns: table => new
           {
             Id = table.Column<int>(nullable: false)
                   .Annotation("Sqlite:Autoincrement", true),
             Quantity = table.Column<int>(nullable: false),
-            CardId = table.Column<int>(nullable: false),
-            FoodId = table.Column<int>(nullable: false),
+            ItemId = table.Column<int>(nullable: false),
             CartId = table.Column<int>(nullable: true)
           },
           constraints: table =>
           {
-            table.PrimaryKey("PK_CartDetails", x => x.Id);
+            table.PrimaryKey("PK_CartItemDetails", x => x.Id);
             table.ForeignKey(
-                      name: "FK_CartDetails_Carts_CartId",
+                      name: "FK_CartItemDetails_Carts_CartId",
                       column: x => x.CartId,
                       principalTable: "Carts",
                       principalColumn: "Id",
@@ -214,8 +214,8 @@ namespace FoodTruckRodeo.API.Migrations
           column: "FoodTruckId");
 
       migrationBuilder.CreateIndex(
-          name: "IX_CartDetails_CartId",
-          table: "CartDetails",
+          name: "IX_CartItemDetails_CartId",
+          table: "CartItemDetails",
           column: "CartId");
 
       migrationBuilder.CreateIndex(
@@ -255,7 +255,7 @@ namespace FoodTruckRodeo.API.Migrations
           name: "CalendarEvents");
 
       migrationBuilder.DropTable(
-          name: "CartDetails");
+          name: "CartItemDetails");
 
       migrationBuilder.DropTable(
           name: "ContactRequests");

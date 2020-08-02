@@ -43,7 +43,18 @@ namespace FoodTruckRodeo.API
       // connection string: 
       services.AddDbContext<DataContext>(db => db.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-      services.AddControllers();
+      // added NuGet package for Microsoft.AspNetCore.Mvc.NewtonsoftJson
+      // AddNewtonsoftJson() will act as if using .NET Core 2.2 with Newtonsoft JSON
+      services.AddControllers().AddNewtonsoftJson(
+        // Added this option to handle the error:
+        // fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+        // An unhandled exception has occurred while executing the request.
+        // Newtonsoft.Json.JsonSerializationException: Self referencing loop detected for property 'menu' with type 'Models.Menu'. Path 'items[0]'.
+        opt =>
+        {
+          opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        }
+      );
 
       // make CORS service available to be used as middleware
       services.AddCors();
@@ -52,6 +63,7 @@ namespace FoodTruckRodeo.API
       // <Interface, Implementation>
       // Implementation can change at any point as long as signature of methods dont change in the Interface
       services.AddScoped<IAuthRepository, AuthRepository>();
+      services.AddScoped<IFoodTruckRepository, FoodTruckRepository>();
 
       // because we used [Authorize] attribute in Controller we need to add the service here with options
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

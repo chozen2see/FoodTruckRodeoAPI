@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Models
 {
   public class Item
@@ -18,5 +20,8 @@ namespace Models
     // Menu(one) and Item (many) Models 
     public int MenuId { get; set; }
     public Menu Menu { get; set; }
+
+    // Cart (many) and Item (many) Models 
+    public ICollection<CartItemDetail> CartItemDetails { get; set; }
   }
 }
