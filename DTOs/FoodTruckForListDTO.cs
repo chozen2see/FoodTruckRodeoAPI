@@ -19,7 +19,7 @@ namespace FoodTruckRodeo.API.DTOs
 
     // public bool IsActiveFoodTruck { get; set; }
 
-    public ICollection<MenuForListDTO> Menus { get; set; }
+    public ICollection<MenuForFoodTruckDTO> Menus { get; set; }
 
     // public ICollection<CalendarEvent> CalendarEvents { get; set; }
 

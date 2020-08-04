@@ -26,9 +26,10 @@ namespace FoodTruckRodeo.API.Helpers
             .FirstOrDefault(ft => ft.IsActiveFoodTruck).IsAdmin
           )
         );
+      CreateMap<FoodTruck, FoodTruckForListDTO>();
+      CreateMap<Menu, MenuForFoodTruckDTO>();
       CreateMap<Menu, MenuForListDTO>();
       CreateMap<Item, ItemsForMenuDTO>();
-      CreateMap<FoodTruck, FoodTruckForListDTO>();
       // CreateMap<FoodTruck, FoodTruckForUsersDTO>()
         // .ForMember(
         //   dest => dest.UserId,

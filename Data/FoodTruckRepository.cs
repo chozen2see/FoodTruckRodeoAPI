@@ -77,17 +77,22 @@ namespace Data
 
     public async Task<FoodTruck> GetFoodTruck(int id)
     {
-      var foodTruck = await _context.FoodTrucks.Include(m => m.Menus).FirstOrDefaultAsync(ft => ft.Id == id);
+      var foodTruck = await _context.FoodTrucks
+        .Include(ft => ft.Menus)
+        .FirstOrDefaultAsync(ft => ft.Id == id);
       return foodTruck;
     }
 
     public async Task<IEnumerable<FoodTruck>> GetFoodTrucks()
     {
-      var foodTrucks = await _context.FoodTrucks.ToListAsync();
+      var foodTrucks = await _context.FoodTrucks
+        .Include(ft => ft.Menus)
+        .ToListAsync();
+
       return foodTrucks;
     }
 
-    
+
     public async Task<IEnumerable<FoodTruckUser>> GetFoodTruckUsers()
     {
       var foodTruckUsers = await _context.FoodTruckUsers.Include(ft => ft.FoodTruck).ToListAsync();
@@ -121,19 +126,23 @@ namespace Data
     public async Task<Item> GetItem(int foodTruckId, int menuId, int id)
     {
 
-        var menu = await _context.Menus
-        .Include(m => m.Items)
-        .Where(m => m.FoodTruckId == foodTruckId && m.Id == menuId)
-        .FirstOrDefaultAsync();
+      var menu = await _context.Menus
+      .Include(m => m.Items)
+      .Where(m => m.FoodTruckId == foodTruckId && m.Id == menuId)
+      .FirstOrDefaultAsync();
 
-        var itemToReturn = default(Item);
+      var itemToReturn = default(Item);
 
+      if (menu != null)
+      {
         foreach (var item in menu.Items)
         {
-            if(item.Id == id) {
-              itemToReturn = item;
-            }
+          if (item.Id == id)
+          {
+            itemToReturn = item;
+          }
         }
+      }
 
       return itemToReturn;
     }
@@ -142,14 +151,12 @@ namespace Data
     {
       // var items = await _context.Items.ToListAsync();
 
-        var menu = await _context.Menus
-        .Include(m => m.Items)
-        .Where(m => m.FoodTruckId == foodTruckId && m.Id == menuId)
-        // .Where(m => m.Items.Any(i => i.Id == id))
-        .FirstOrDefaultAsync();
+      var menu = await _context.Menus
+      .Include(m => m.Items)
+      .Where(m => m.FoodTruckId == foodTruckId && m.Id == menuId)
+      .FirstOrDefaultAsync();
 
-      // var items = menu.Items;
-      return menu.Items;
+      return menu != null ? menu.Items : Enumerable.Empty<Item>();
     }
 
     public async Task<Menu> GetMenu(int foodTruckId, int id)
@@ -175,7 +182,7 @@ namespace Data
       Include(u => u.FoodTruckUsers).ToListAsync();
       return users;
     }
-    
+
     public async Task<User> GetUser(int id)
     {
       var user = await _context.Users.Include(u => u.FoodTruckUsers).FirstOrDefaultAsync(u => u.Id == id);

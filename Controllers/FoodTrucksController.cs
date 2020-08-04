@@ -79,7 +79,7 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(itemToReturn);
     }
 
-        [HttpGet("{foodTruckId}/menus/{menuId}/items")]
+    [HttpGet("{foodTruckId}/menus/{menuId}/items")]
     public async Task<IActionResult> GetItems(int foodTruckId, int menuId, int itemId)
     {
       var items = await _repo.GetItems(foodTruckId, menuId);
