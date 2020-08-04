@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using Models;
-
 namespace FoodTruckRodeo.API.DTOs
 {
-    public class MenuForListDTO
+  public class MenuForListDTO
     {
         
     public int Id { get; set; }

@@ -12,7 +12,7 @@ namespace FoodTruckRodeo.API.Helpers
     {
       CreateMap<User, UserForListDTO>()
         .ForMember(
-          dest => dest.FoodTruckId, 
+          dest => dest.FoodTruckId,
           opt => opt.MapFrom(
               src => src.FoodTruckUsers
               .FirstOrDefault(
@@ -28,6 +28,16 @@ namespace FoodTruckRodeo.API.Helpers
         );
       CreateMap<Menu, MenuForListDTO>();
       CreateMap<Item, ItemsForMenuDTO>();
+      CreateMap<FoodTruck, FoodTruckForListDTO>();
+      // CreateMap<FoodTruck, FoodTruckForUsersDTO>()
+        // .ForMember(
+        //   dest => dest.UserId,
+        //   opt => opt.MapFrom(
+        //     src => src.FoodTruckUsers
+        //     .FirstOrDefault(ft => ft.FoodTruckId == 1).UserId
+        //   )
+        // )
+      // ;
     }
 
   }

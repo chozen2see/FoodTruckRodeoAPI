@@ -22,40 +22,45 @@ namespace Data
     Task<FoodTruck> GetFoodTruck(int id);
 
     Task<IEnumerable<FoodTruckUser>> GetFoodTruckUsers();
+    // Task<FoodTruckUser> GetFoodTruckUserByFoodTruckId(int id);
+    // Task<IEnumerable<FoodTruckUser>> GetFoodTruckUsersByFoodTruckId(int id);
+
+    // Task<FoodTruckUser> GetFoodTruckUserByUserId(int id);
+    // Task<IEnumerable<FoodTruckUser>> GetFoodTruckUsersByUserId(int id);
 
     Task<IEnumerable<User>> GetUsers();
-    
+
     // get a user
     Task<User> GetUser(int id);
 
     // get all menus
-    Task<IEnumerable<Menu>> GetMenus();
+    Task<IEnumerable<Menu>> GetMenus(int foodTruckId);
 
     // get a menu
-    Task<Menu> GetMenu(int id);
+    Task<Menu> GetMenu(int foodTruckId, int id);
 
-    // get all items
-    Task<IEnumerable<Item>> GetItems();
+    // get all items - int foodTruckId, int menuId
+    Task<IEnumerable<Item>> GetItems(int foodTruckId, int menuId);
 
-    // get a item
-    Task<Item> GetItem(int id);
+    // get a item - 
+    Task<Item> GetItem(int foodTruckId, int menuId, int id);
 
-    // get all carts
+    // get all carts - int userId
     Task<IEnumerable<Cart>> GetCarts();
 
     // get a cart
-    Task<Cart> GetCart(int id);
+    Task<Cart> GetCart(int foodtruckid, int userId, int id);
 
-    // get all cart details
+    // get all cart details - int userId, int cartId
     Task<IEnumerable<CartItemDetail>> GetCartItemDetails();
 
-    // get a cart detail
+    // get a cart detail - int userId, int cartId, 
     Task<CartItemDetail> GetCartItemDetail(int id);
 
     // get all calendar events
-    Task<IEnumerable<CalendarEvent>> GetCalendarEvents();
+    Task<IEnumerable<CalendarEvent>> GetCalendarEvents(int foodTruckId);
 
     // get a calendar event
-    Task<CalendarEvent> GetCalendarEvent(int id);
+    Task<CalendarEvent> GetCalendarEvent(int foodTruckId, int id);
   }
 }
