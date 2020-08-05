@@ -33,6 +33,7 @@ namespace FoodTruckRodeo.API.Controllers
       // http://localhost:5000/api/menus/4/items/10
     }
 
+    [AllowAnonymous]
     [HttpGet("{foodTruckId}")]
     public async Task<IActionResult> GetFoodTruck(int foodTruckId)
     {
@@ -43,6 +44,7 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(foodTruckToReturn);
     }
 
+    [AllowAnonymous]
     //  FOOD TRUCK MENUS
     [HttpGet("{foodTruckId}/menus")]
     public async Task<IActionResult> GetMenus(int foodTruckId)
@@ -56,7 +58,7 @@ namespace FoodTruckRodeo.API.Controllers
     }
 
     // FOOD TRUCK MENU ITEMS
-
+    [AllowAnonymous]
     [HttpGet("{foodTruckId}/menus/{menuid}")]
     public async Task<IActionResult> GetMenu(int foodTruckId, int menuid)
     {
@@ -79,6 +81,7 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(itemToReturn);
     }
 
+    [AllowAnonymous]
     [HttpGet("{foodTruckId}/menus/{menuId}/items")]
     public async Task<IActionResult> GetItems(int foodTruckId, int menuId, int itemId)
     {
