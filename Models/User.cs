@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
@@ -13,6 +14,8 @@ namespace Models
     public byte[] PasswordSalt { get; set; }
 
     public string Name { get; set; }
+
+    // [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
 
     public string PhoneNumber { get; set; }

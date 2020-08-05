@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Data
-{   
+{
   // AuthRepository Implmentation
   public class AuthRepository : IAuthRepository
   {
@@ -21,91 +21,108 @@ namespace Data
     // login to API
     public async Task<User> Login(string username, string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync( 
-            // will return username that matches or NULL
-            result => result.Username == username
-        );
+      var user = await _context.Users.FirstOrDefaultAsync(
+          // will return username that matches or NULL
+          result => result.Username == username
+      );
 
-        // if user not found send status
-        if (user == null)
-            return null; // 401 unauthorized
+      // if user not found send status
+      if (user == null)
+        return null; // 401 unauthorized
 
-        // compute hash password generates
-        if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            return null; // 401 unauthorized
+      // compute hash password generates
+      if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+        return null; // 401 unauthorized
 
-        // compare hash to what is stored in DB
-        return user;
+      // compare hash to what is stored in DB
+      return user;
     }
 
     private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
     {
-        // disposes of everything inside once code is executed
-        using(
-            // Initializes a new instance of the System.Security.Cryptography.HMACSHA512 class with the specified key data.
-            // pass in the key to get the computed hash for comparison with what is in the DB
+      // disposes of everything inside once code is executed
+      using (
+          // Initializes a new instance of the System.Security.Cryptography.HMACSHA512 class with the specified key data.
+          // pass in the key to get the computed hash for comparison with what is in the DB
 
-            var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)
-        ) {
-            // ComputeHash takes in byte array. Must Convert password to byte array using UTF8.GetBytes funct
-            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+          var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)
+      )
+      {
+        // ComputeHash takes in byte array. Must Convert password to byte array using UTF8.GetBytes funct
+        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 
-            // loop over computedHash and passwordHash and compare
-            for (int i = 0; i < computedHash.Length; i++) 
-            {
-                // if any char doesn't match, incorrect pwd
-                if (computedHash[i] != passwordHash[i]) 
-                    return false;
-            }
+        // loop over computedHash and passwordHash and compare
+        for (int i = 0; i < computedHash.Length; i++)
+        {
+          // if any char doesn't match, incorrect pwd
+          if (computedHash[i] != passwordHash[i])
+            return false;
         }
+      }
 
-        // otherwise password verified
-        return true;
+      // otherwise password verified
+      return true;
     }
 
-    public async Task<User> Register(User user, string password)
+    public async Task<User> Register(User user, string password, int foodTruckId)
     {
-       byte[] passwordHash, passwordSalt;
+      byte[] passwordHash, passwordSalt;
 
-    // use keyword OUT to pass vars by ref not value
-       CreatePasswordHash(password, out passwordHash, out passwordSalt);
+      // use keyword OUT to pass vars by ref not value
+      CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-    // set user password and salt using byte array vars above
-       user.PasswordHash = passwordHash;
-       user.PasswordSalt = passwordSalt;
+      // set user password and salt using byte array vars above
+      user.PasswordHash = passwordHash;
+      user.PasswordSalt = passwordSalt;
 
-    // add to DB. update user object then save changes to DB
-        await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
+      // add to DB. update user object then save changes to DB
+      await _context.Users.AddAsync(user);
+      await _context.SaveChangesAsync();
 
-        return user;
+      await CreateFoodTruckUser(user.Id, foodTruckId);
+
+      return user;
     }
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
-        // disposes of everything inside once code is executed
-        using(
-            // Initializes a new instance of the System.Security.Cryptography.HMACSHA512 class with a randomly generated key.
+      // disposes of everything inside once code is executed
+      using (
+          // Initializes a new instance of the System.Security.Cryptography.HMACSHA512 class with a randomly generated key.
 
-            var hmac = new System.Security.Cryptography.HMACSHA512()
-        ) {
-            passwordSalt = hmac.Key;
+          var hmac = new System.Security.Cryptography.HMACSHA512()
+      )
+      {
+        passwordSalt = hmac.Key;
 
-            // ComputeHash takes in byte array. Must Convert password to byte array using UTF8.GetBytes funct
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        }
-      
+        // ComputeHash takes in byte array. Must Convert password to byte array using UTF8.GetBytes funct
+        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+      }
+    }
+
+    private async Task CreateFoodTruckUser(int userId, int foodTruckId)
+    {
+      var foodTruckUserToCreate = new FoodTruckUser
+      {
+        IsAdmin = false,
+        IsActiveFoodTruck = true,
+        FoodTruckId = foodTruckId,
+        UserId = userId
+      };
+
+      await _context.FoodTruckUsers.AddAsync(foodTruckUserToCreate);
+      await _context.SaveChangesAsync();
 
     }
 
     public async Task<bool> UserExists(string username)
     {
-        // found matching username in DB. can't be used
+      // found matching username in DB. can't be used
       if (await _context.Users.AnyAsync(result => result.Username == username))
         return true;
 
-        // username doesn't exist and can be used
-        return false;
+      // username doesn't exist and can be used
+      return false;
     }
   }
 }

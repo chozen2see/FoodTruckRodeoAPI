@@ -27,8 +27,8 @@ namespace FoodTruckRodeo.API.Controllers
       _repo = repo;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO)
+    [HttpPost("register/{foodTruckId}")]
+    public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDTO, int foodTruckId)
     {
       // Data Transfer Object (DTO) used to map domain model (User class) into simpler objects that get returned or displayed by the view
 
@@ -44,11 +44,14 @@ namespace FoodTruckRodeo.API.Controllers
       // if not, create a user object
       var userToCreate = new User
       {
-        Username = userForRegisterDTO.Username
+        Username = userForRegisterDTO.Username,
+        Name = userForRegisterDTO.Name,
+        Email = userForRegisterDTO.Email,
+        PhoneNumber = userForRegisterDTO.PhoneNumber
       };
 
       // pass user object and password to register user
-      var createdUser = await _repo.Register(userToCreate, userForRegisterDTO.Password);
+      var createdUser = await _repo.Register(userToCreate, userForRegisterDTO.Password, foodTruckId);
 
       // return to client name of route to use for generating the URL to get newly created entity and object
       return StatusCode(201); // temp fix CreatedAtRoute

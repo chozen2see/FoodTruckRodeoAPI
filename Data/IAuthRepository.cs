@@ -12,7 +12,7 @@ namespace Data
         // interface only contains the signatures of the methods
 
         // Register User
-        Task<User> Register(User user, string password);
+        Task<User> Register(User user, string password, int foodTruckId);
 
         // Login User to API
         Task<User> Login(string username, string password);
