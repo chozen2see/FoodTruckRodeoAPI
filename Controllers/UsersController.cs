@@ -34,7 +34,7 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(usersForListDTO);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetUser")]
     public async Task<IActionResult> GetUser(int id)
     {
       var user = await _repo.GetUser(id);
@@ -44,5 +44,7 @@ namespace FoodTruckRodeo.API.Controllers
 
       return Ok(userToReturn);
     }
+
+    // add update user route here
   }
 }
