@@ -66,8 +66,13 @@ namespace Data
     // get a calendar event
     Task<CalendarEvent> GetCalendarEvent(int foodTruckId, int id);
 
+    // complete purchase of items in cart
+    Task<Cart> CompletePurchase(int id);
 
-    // get order
+    // fill order
     Task<Cart> FillOrder(int id);
+
+    // update qty of item in cart
+    Task<CartItemDetail> UpdateItem(int id, int itemId, int qty);
   }
 }

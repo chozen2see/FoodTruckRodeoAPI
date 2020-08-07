@@ -31,5 +31,26 @@ namespace FoodTruckRodeo.API.Controllers
 
       return Ok(cartToReturn);
     }
+
+    // COMPLETE PURCHASE
+    [HttpPut("{id}/cp")]
+    public async Task<IActionResult> CompletePurchase(int id)
+    {
+      var order = await _repo.CompletePurchase(id);
+
+      var orderToReturn = _mapper.Map<CartDTO>(order);
+
+      return Ok(orderToReturn);
+    }
+
+    [HttpPut("{id}/item/{itemId}/qty/{qty}")]
+    public async Task<IActionResult> UpdateItem(int id, int itemId, int qty)
+    {
+      var item = await _repo.UpdateItem(id, itemId, qty);
+
+      var itemToReturn = _mapper.Map<ItemDetailsForCartDTO>(item);
+
+      return Ok(itemToReturn);
+    }
   }
 }

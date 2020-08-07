@@ -9,10 +9,12 @@ namespace FoodTruckRodeo.API.DTOs
 
     public int Quantity { get; set; }
 
+    public int ItemId { get; set; }
+
     // EF Core Relationships: 
     // Cart (many) and Item (many) Models 
     public int CartId { get; set; }
 
-    public ItemForItemDetailsDTO Item { get; set; } 
+    public ItemForItemDetailsDTO Item { get; set; }
   }
 }

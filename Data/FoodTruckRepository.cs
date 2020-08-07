@@ -229,13 +229,52 @@ namespace Data
       return user;
     }
 
-    public async Task<Cart> FillOrder(int id)
-    {
-      
 
+    // User adding to cart. Not purchased.
+    // IsPurchased == 0  | IsOrderFilled == 0
+    public async Task<CartItemDetail> UpdateItem(int id, int itemId, int qty)
+    {
+      var item = await _context.CartItemDetails
+        .Where(c =>
+        c.CartId == id &&
+        c.ItemId == itemId
+        )
+        .FirstOrDefaultAsync();
+
+      if (item == null)
+      {
+        return null;
+      }
+
+      item.Quantity = qty;
+
+      await _context.SaveChangesAsync();
+
+      return item;
+    }
+
+    public async Task<Cart> CompletePurchase(int id)
+    {
       var order = await _context.Carts.FirstOrDefaultAsync(result => result.Id == id);
 
-      if (order == null) {
+      if (order == null)
+      {
+        return null;
+      }
+
+      order.IsPurchaseComplete = true;
+
+      await _context.SaveChangesAsync();
+
+      return order;
+    }
+
+    public async Task<Cart> FillOrder(int id)
+    {
+      var order = await _context.Carts.FirstOrDefaultAsync(result => result.Id == id);
+
+      if (order == null)
+      {
         return null;
       }
 
