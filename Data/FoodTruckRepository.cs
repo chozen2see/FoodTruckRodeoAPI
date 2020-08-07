@@ -46,15 +46,25 @@ namespace Data
       return calendarEvents;
     }
 
+    // User adding to cart. Not purchased.
+    // IsPurchased == 0  | IsOrderFilled == 0
     public async Task<Cart> GetCart(int foodtruckid, int userId, int id)
     {
+
       var cart = await _context.Carts
-        .Include(c => c.CartItemDetails)
+        .Include("CartItemDetails.Item")
+        // .Include(c => c.CartItemDetails)
         .Include(c => c.FoodTruckUser)
-        .Where(c => c.FoodTruckUser.FoodTruckId == foodtruckid)
-        .Where(c => c.FoodTruckUser.UserId == userId)
+        .Where(c =>
+        c.FoodTruckUser.FoodTruckId == foodtruckid &&
+        c.FoodTruckUser.UserId == userId &&
+        c.IsPurchaseComplete == false &&
+        c.IsOrderFilled == false
+        )
         .FirstOrDefaultAsync(c => c.Id == id);
+
       return cart;
+
     }
 
     public async Task<CartItemDetail> GetCartItemDetail(int id)
@@ -69,7 +79,22 @@ namespace Data
       return cartItemDetails;
     }
 
-    public async Task<IEnumerable<Cart>> GetCarts()
+    // User purchased items in cart. Order has not been filled.
+    // IsPurchased == 1  | IsOrderFilled == 0
+    public async Task<Cart> GetOrder(int foodtruckid, int userId, int id, int filled)
+    {
+      var cart = await _context.Carts
+        .Include(c => c.CartItemDetails)
+        .Include(c => c.FoodTruckUser)
+        .Where(c => c.FoodTruckUser.FoodTruckId == foodtruckid && c.FoodTruckUser.UserId == userId)
+        // .Where(c => c.FoodTruckUser.UserId == userId)
+        .FirstOrDefaultAsync(c => c.Id == id);
+      return cart;
+    }
+
+    // User historical orders.
+    // IsPurchased == 1  | IsOrderFilled == 1
+    public async Task<IEnumerable<Cart>> GetOrderHistory()
     {
       var carts = await _context.Carts.Include(cid => cid.CartItemDetails).ToListAsync();
       return carts;

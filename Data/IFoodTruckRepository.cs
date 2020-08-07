@@ -45,11 +45,14 @@ namespace Data
     // get a item - 
     Task<Item> GetItem(int foodTruckId, int menuId, int id);
 
-    // get all carts - int userId
-    Task<IEnumerable<Cart>> GetCarts();
-
     // get a cart
     Task<Cart> GetCart(int foodtruckid, int userId, int id);
+
+    // get order
+    Task<Cart> GetOrder(int foodtruckid, int userId, int id, int filled);
+
+    // get all carts - int userId
+    Task<IEnumerable<Cart>> GetOrderHistory();
 
     // get all cart details - int userId, int cartId
     Task<IEnumerable<CartItemDetail>> GetCartItemDetails();

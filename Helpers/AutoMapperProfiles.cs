@@ -29,16 +29,20 @@ namespace FoodTruckRodeo.API.Helpers
       CreateMap<FoodTruck, FoodTruckForListDTO>();
       CreateMap<Menu, MenuForFoodTruckDTO>();
       CreateMap<Menu, MenuForListDTO>();
-      CreateMap<Item, ItemsForMenuDTO>();
+      CreateMap<Item, ItemsForMenuDTO>();  
+      CreateMap<Item, ItemForItemDetailsDTO>(); 
+      CreateMap<Cart, CartDTO>(); 
+      CreateMap<CartItemDetail, ItemDetailsForCartDTO>();
       CreateMap<UserForRegisterDTO, User>();
+
       // CreateMap<FoodTruck, FoodTruckForUsersDTO>()
-        // .ForMember(
-        //   dest => dest.UserId,
-        //   opt => opt.MapFrom(
-        //     src => src.FoodTruckUsers
-        //     .FirstOrDefault(ft => ft.FoodTruckId == 1).UserId
-        //   )
-        // )
+      // .ForMember(
+      //   dest => dest.UserId,
+      //   opt => opt.MapFrom(
+      //     src => src.FoodTruckUsers
+      //     .FirstOrDefault(ft => ft.FoodTruckId == 1).UserId
+      //   )
+      // )
       // ;
     }
 

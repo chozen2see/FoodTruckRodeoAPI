@@ -34,7 +34,7 @@ namespace FoodTruckRodeo.API.Controllers
     }
 
     [AllowAnonymous]
-    [HttpGet("{foodTruckId}")]
+    [HttpGet("{foodTruckId}")] // [Method("route param")]
     public async Task<IActionResult> GetFoodTruck(int foodTruckId)
     {
       var foodTruck = await _repo.GetFoodTruck(foodTruckId);

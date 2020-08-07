@@ -46,9 +46,11 @@ namespace FoodTruckRodeo.API
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
+        Host.CreateDefaultBuilder(args) // kestel server part of .net sdk. 
+        // reads config from appsettings.Developnent.json (dev) or appsettings.json (prod) 
             .ConfigureWebHostDefaults(webBuilder =>
             {
+              // use Startup.cs - what parts of framework are being used
               webBuilder.UseStartup<Startup>();
             });
   }

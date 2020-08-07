@@ -25,13 +25,15 @@ namespace FoodTruckRodeo.API
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
+    private readonly IConfiguration _config;
+    public Startup(IConfiguration config)
     {
+      _config = config;
       // allows access to appsettings files
-      Configuration = configuration;
+
     }
 
-    public IConfiguration Configuration { get; }
+    // public IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -42,7 +44,7 @@ namespace FoodTruckRodeo.API
       // connecting to db , so need to specify
       // database provider: sqlite
       // connection string: 
-      services.AddDbContext<DataContext>(db => db.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+      services.AddDbContext<DataContext>(db => db.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
       // added NuGet package for Microsoft.AspNetCore.Mvc.NewtonsoftJson
       // AddNewtonsoftJson() will act as if using .NET Core 2.2 with Newtonsoft JSON
@@ -76,7 +78,7 @@ namespace FoodTruckRodeo.API
         new TokenValidationParameters
         {
           ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config.GetSection("AppSettings:Token").Value)),
           ValidateIssuer = false,
           ValidateAudience = false
         };
@@ -120,6 +122,7 @@ namespace FoodTruckRodeo.API
         });
       }
 
+      // redirect to https
       // app.UseHttpsRedirection();
 
       // use routing

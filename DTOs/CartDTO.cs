@@ -17,8 +17,10 @@ namespace FoodTruckRodeo.API.DTOs
 
     public bool IsOrderFilled { get; set; }
 
+    public int FoodTruckId { get; set; }
+    
     public int UserId { get; set; }
 
-    public ICollection<CartItemDetail> CartItemDetails { get; set; }
+    public ICollection<ItemDetailsForCartDTO> CartItemDetails { get; set; }
   }
 }
