@@ -13,14 +13,6 @@ namespace FoodTruckRodeo.API.DTOs
     // Cart (many) and Item (many) Models 
     public int CartId { get; set; }
 
-    // public int ItemId { get; set; }
-
-    // public string ItemName { get; set; }
-
-    // public float ItemPrice { get; set; }
-
-    // public string ItemSize { get; set; }
-
     public ItemForItemDetailsDTO Item { get; set; } 
   }
 }

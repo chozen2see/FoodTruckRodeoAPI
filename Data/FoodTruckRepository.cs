@@ -81,22 +81,37 @@ namespace Data
 
     // User purchased items in cart. Order has not been filled.
     // IsPurchased == 1  | IsOrderFilled == 0
-    public async Task<Cart> GetOrder(int foodtruckid, int userId, int id, int filled)
+    public async Task<Cart> GetOrder(int foodTruckId, int userId, int id)
     {
       var cart = await _context.Carts
-        .Include(c => c.CartItemDetails)
+        .Include("CartItemDetails.Item")
+        // .Include(c => c.CartItemDetails)
         .Include(c => c.FoodTruckUser)
-        .Where(c => c.FoodTruckUser.FoodTruckId == foodtruckid && c.FoodTruckUser.UserId == userId)
-        // .Where(c => c.FoodTruckUser.UserId == userId)
+        .Where(c =>
+        c.FoodTruckUser.FoodTruckId == foodTruckId &&
+        c.FoodTruckUser.UserId == userId &&
+        c.IsPurchaseComplete == true
+        )
         .FirstOrDefaultAsync(c => c.Id == id);
+
       return cart;
     }
 
     // User historical orders.
     // IsPurchased == 1  | IsOrderFilled == 1
-    public async Task<IEnumerable<Cart>> GetOrderHistory()
+    public async Task<IEnumerable<Cart>> GetOrderHistory(int foodtruckid, int userId)
     {
-      var carts = await _context.Carts.Include(cid => cid.CartItemDetails).ToListAsync();
+      var carts = await _context.Carts
+        .Include("CartItemDetails.Item")
+        // .Include(c => c.CartItemDetails)
+        .Include(c => c.FoodTruckUser)
+        .Where(c =>
+        c.FoodTruckUser.FoodTruckId == foodtruckid &&
+        c.FoodTruckUser.UserId == userId &&
+        c.IsPurchaseComplete == true &&
+        c.IsOrderFilled == true
+        ).ToListAsync();
+
       return carts;
     }
 
@@ -212,6 +227,23 @@ namespace Data
     {
       var user = await _context.Users.Include(u => u.FoodTruckUsers).FirstOrDefaultAsync(u => u.Id == id);
       return user;
+    }
+
+    public async Task<Cart> FillOrder(int id)
+    {
+      
+
+      var order = await _context.Carts.FirstOrDefaultAsync(result => result.Id == id);
+
+      if (order == null) {
+        return null;
+      }
+
+      order.IsOrderFilled = true;
+
+      await _context.SaveChangesAsync();
+
+      return order;
     }
 
     public async Task<bool> SaveAll()

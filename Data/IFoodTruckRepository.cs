@@ -49,10 +49,10 @@ namespace Data
     Task<Cart> GetCart(int foodtruckid, int userId, int id);
 
     // get order
-    Task<Cart> GetOrder(int foodtruckid, int userId, int id, int filled);
+    Task<Cart> GetOrder(int foodtruckid, int userId, int id);
 
-    // get all carts - int userId
-    Task<IEnumerable<Cart>> GetOrderHistory();
+    // get all filled orders 
+    Task<IEnumerable<Cart>> GetOrderHistory(int foodtruckid, int userId);
 
     // get all cart details - int userId, int cartId
     Task<IEnumerable<CartItemDetail>> GetCartItemDetails();
@@ -65,5 +65,9 @@ namespace Data
 
     // get a calendar event
     Task<CalendarEvent> GetCalendarEvent(int foodTruckId, int id);
+
+
+    // get order
+    Task<Cart> FillOrder(int id);
   }
 }
