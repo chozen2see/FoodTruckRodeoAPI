@@ -30,5 +30,8 @@ namespace Models
     // FoodTruck (one) and CalendarEvent (many) Models 
     public int FoodTruckId { get; set; }
     public FoodTruck FoodTruck { get; set; }
+
+    public string AddressUrlEscaped { get; set; }
+    public string MapUrl { get; set; }
   }
 }

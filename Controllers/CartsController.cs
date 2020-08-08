@@ -21,7 +21,7 @@ namespace FoodTruckRodeo.API.Controllers
       _repo = repo;
     }
 
-    // need get route here
+    // GET ENTIRE CART
     [HttpGet("{id}/foodtruck/{foodTruckId}/user/{userId}")]
     public async Task<IActionResult> GetCart(int foodTruckId, int userId, int id)
     {
@@ -43,6 +43,18 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(orderToReturn);
     }
 
+    // ADD ITEM TO CART
+    [HttpPost("{id}/foodtruck/{foodTruckId}/user/{userId}/item/{itemId}/qty/{qty}")]
+    public async Task<IActionResult> AddCartItem(int id, int foodTruckId, int userId, int itemId, int qty)
+    {
+      var item = await _repo.AddCartItem(id, foodTruckId, userId, itemId, qty);
+
+      var itemToReturn = _mapper.Map<ItemDetailsForCartDTO>(item);
+
+      return Ok(itemToReturn);
+    }
+
+    // UPDATE ITEM QUANTITY
     [HttpPut("{id}/item/{itemId}/qty/{qty}")]
     public async Task<IActionResult> UpdateItem(int id, int itemId, int qty)
     {
@@ -51,6 +63,28 @@ namespace FoodTruckRodeo.API.Controllers
       var itemToReturn = _mapper.Map<ItemDetailsForCartDTO>(item);
 
       return Ok(itemToReturn);
+    }
+
+    // REMOVE ITEM FROM CART
+    [HttpDelete("{id}/foodtruck/{foodTruckId}/user/{userId}/item/{itemId}")]
+    public async Task<IActionResult> DeleteItem(int id, int foodTruckId, int userId, int itemId)
+    {
+      var cart = await _repo.DeleteItem(id, foodTruckId, userId, itemId);
+
+      var cartToReturn = _mapper.Map<CartDTO>(cart);
+
+      return Ok(cartToReturn);
+    }
+
+        // REMOVE CART
+    [HttpDelete("{id}/foodtruck/{foodTruckId}/user/{userId}")]
+    public async Task<IActionResult> DeleteCart(int id, int foodTruckId, int userId)
+    {
+      var cart = await _repo.DeleteCart(id, foodTruckId, userId);
+
+      var deletedCart = _mapper.Map<CartDTO>(cart);
+
+      return Ok(deletedCart);
     }
   }
 }

@@ -52,16 +52,16 @@ namespace Data
     {
 
       var cart = await _context.Carts
-        .Include("CartItemDetails.Item")
+        // .Include("CartItemDetails.Item")
         // .Include(c => c.CartItemDetails)
-        .Include(c => c.FoodTruckUser)
+        // .Include(c => c.FoodTruckUser)
         .Where(c =>
         c.FoodTruckUser.FoodTruckId == foodtruckid &&
         c.FoodTruckUser.UserId == userId &&
         c.IsPurchaseComplete == false &&
         c.IsOrderFilled == false
         )
-        .FirstOrDefaultAsync(c => c.Id == id);
+        .FirstOrDefaultAsync(c => c.Id == id || id == 0);
 
       return cart;
 
@@ -151,11 +151,23 @@ namespace Data
     //   return foodTruckUsers;
     // }
 
-    // public async Task<FoodTruckUser> GetFoodTruckUserByUserId(int id)
+
+    // public async Task<FoodTruckUser> GetFoodTruckUserByUserId(int userId)
     // {
-    //   var foodTruckUser = await _context.FoodTruckUsers.Include(ft => ft.FoodTruck).FirstOrDefaultAsync(ftu => ftu.Id == id);
+    //   var foodTruckUser = await _context.FoodTruckUsers.Include(ft => ft.FoodTruck).FirstOrDefaultAsync(ftu => ftu.Id == userId);
     //   return foodTruckUser;
     // }
+
+    public async Task<int> GetFoodTruckUserId(int foodTruckId, int userId)
+    {
+      var foodTruckUser = await _context.FoodTruckUsers
+      .Where(ftu =>
+        ftu.FoodTruckId == foodTruckId &&
+        ftu.UserId == userId)
+      .FirstOrDefaultAsync();
+
+      return foodTruckUser.Id;
+    }
 
     // public async Task<IEnumerable<FoodTruckUser>> GetFoodTruckUsersByUserId(int id)
     // {
@@ -229,9 +241,104 @@ namespace Data
       return user;
     }
 
+    public async Task<Cart> CreateCart(Cart cart, int foodTruckId, int userId)
+    {
+      var newCart = default(Cart);
+      newCart = new Cart()
+      {
+        SubTotal = 0,
+        Tax = 0,
+        Total = 0,
+        IsPurchaseComplete = false,
+        IsOrderFilled = false,
 
-    // User adding to cart. Not purchased.
-    // IsPurchased == 0  | IsOrderFilled == 0
+        // GET FOODTRUCKUSERID BASED ON FOODTRUCKID & USERID
+        FoodTruckUserId = await GetFoodTruckUserId(foodTruckId, userId)
+      };
+
+      cart = newCart;
+
+      // CREATE CART
+      await _context.Carts.AddAsync(cart);
+      await _context.SaveChangesAsync();
+      return cart;
+    }
+
+    public async Task<Cart> UpdateCart(Cart cart)
+    {
+
+      var subtotal = 0.0;
+
+      var cartItemDetails = await _context.CartItemDetails
+        .Include(cid => cid.Item)
+        .Where(cid => cid.CartId == cart.Id)
+        .ToListAsync();
+
+      foreach (var item in cartItemDetails)
+      {
+        subtotal = subtotal + (item.Quantity * item.Item.Price);
+      }
+
+      cart.SubTotal = Convert.ToSingle(subtotal);
+      // cart.Tax = (float)(cart.SubTotal * GetTaxRate());
+      cart.Tax = Convert.ToSingle(Math.Round(cart.SubTotal * GetTaxRate(), 2));
+      cart.Total = cart.SubTotal + cart.Tax;
+
+      await SaveAll();
+
+      return cart;
+    }
+
+    private float GetTaxRate()
+    {
+      return 0.08F;
+    }
+
+    public async Task<CartItemDetail> AddCartItem(int id, int foodTruckId, int userId, int itemId, int qty)
+    {
+      // 1. CHECK IF CART EXISTS 
+      // // IsPurchased == 0  | IsOrderFilled == 0
+      var cart = await GetCart(foodTruckId, userId, id);
+
+      if (cart == null)
+      {
+        // 2. IF NOT CREATE CART
+        cart = await CreateCart(cart, foodTruckId, userId);
+      }
+
+      // 3. IS ITEM ALREADY IN CART? IF SO, UPDATE TO QTY 22.19
+      if (_context.CartItemDetails.Any(
+        c => c.CartId == cart.Id && c.ItemId == itemId
+      ))
+      {
+        await UpdateItem(cart.Id, itemId, qty);
+      }
+      else
+      {
+        // 4. CREATE ITEM
+        var cartItem = default(CartItemDetail);
+
+        cartItem = new CartItemDetail()
+        {
+          Quantity = qty,
+          ItemId = itemId,
+          CartId = cart.Id
+        };
+
+        await _context.CartItemDetails.AddAsync(cartItem);
+        await SaveAll();
+      }
+
+      // 5. UPDATE CART TOTALS 
+      var updatedCart = await UpdateCart(cart);
+
+      var itemToReturn = await _context.CartItemDetails.FirstOrDefaultAsync(
+        c => c.CartId == cart.Id && c.ItemId == itemId
+      );
+
+      return itemToReturn;
+    }
+
     public async Task<CartItemDetail> UpdateItem(int id, int itemId, int qty)
     {
       var item = await _context.CartItemDetails
@@ -248,9 +355,63 @@ namespace Data
 
       item.Quantity = qty;
 
-      await _context.SaveChangesAsync();
+      await SaveAll();
 
       return item;
+    }
+
+    public async Task<Cart> DeleteItem(int id, int foodTruckId, int userId, int itemId)
+    {
+      var item = await _context.CartItemDetails
+        .Where(c =>
+        c.CartId == id &&
+        c.ItemId == itemId
+        )
+        .FirstOrDefaultAsync();
+
+      if (item == null)
+      {
+        return null;
+      }
+
+      _context.CartItemDetails.Remove(item);
+
+      await SaveAll();
+
+      // get and update the cart
+      var cart = await UpdateCart(await GetCart(foodTruckId, userId, id));
+
+      return cart;
+    }
+
+    public async Task<Cart> DeleteCart(int id, int foodTruckId, int userId)
+    {
+      // GET FOODTRUCKUSERID BASED ON FOODTRUCKID & USERID
+      var foodTruckUserId = await GetFoodTruckUserId(foodTruckId, userId);
+
+      var cart = await _context.Carts
+        .Where(c => c.Id == id && c.FoodTruckUserId == foodTruckUserId)
+        .FirstOrDefaultAsync();
+
+      if (cart == null)
+      {
+        return null;
+      }
+
+      var items = await _context.CartItemDetails
+        .Where(c => c.CartId == cart.Id)
+        .ToListAsync();
+
+      foreach (var item in items)
+      {
+          _context.CartItemDetails.Remove(item);
+      }
+
+      _context.Carts.Remove(cart);
+
+      await SaveAll();
+
+      return cart;
     }
 
     public async Task<Cart> CompletePurchase(int id)
@@ -264,7 +425,7 @@ namespace Data
 
       order.IsPurchaseComplete = true;
 
-      await _context.SaveChangesAsync();
+      await SaveAll();
 
       return order;
     }
@@ -280,7 +441,7 @@ namespace Data
 
       order.IsOrderFilled = true;
 
-      await _context.SaveChangesAsync();
+      await SaveAll();
 
       return order;
     }

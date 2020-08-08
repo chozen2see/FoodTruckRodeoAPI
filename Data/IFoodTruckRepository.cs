@@ -33,32 +33,6 @@ namespace Data
     // get a user
     Task<User> GetUser(int id);
 
-    // get all menus
-    Task<IEnumerable<Menu>> GetMenus(int foodTruckId);
-
-    // get a menu
-    Task<Menu> GetMenu(int foodTruckId, int id);
-
-    // get all items - int foodTruckId, int menuId
-    Task<IEnumerable<Item>> GetItems(int foodTruckId, int menuId);
-
-    // get a item - 
-    Task<Item> GetItem(int foodTruckId, int menuId, int id);
-
-    // get a cart
-    Task<Cart> GetCart(int foodtruckid, int userId, int id);
-
-    // get order
-    Task<Cart> GetOrder(int foodtruckid, int userId, int id);
-
-    // get all filled orders 
-    Task<IEnumerable<Cart>> GetOrderHistory(int foodtruckid, int userId);
-
-    // get all cart details - int userId, int cartId
-    Task<IEnumerable<CartItemDetail>> GetCartItemDetails();
-
-    // get a cart detail - int userId, int cartId, 
-    Task<CartItemDetail> GetCartItemDetail(int id);
 
     // get all calendar events
     Task<IEnumerable<CalendarEvent>> GetCalendarEvents(int foodTruckId);
@@ -66,13 +40,55 @@ namespace Data
     // get a calendar event
     Task<CalendarEvent> GetCalendarEvent(int foodTruckId, int id);
 
+
+    // get all menus
+    Task<IEnumerable<Menu>> GetMenus(int foodTruckId);
+
+    // get a menu
+    Task<Menu> GetMenu(int foodTruckId, int id);
+
+
+
+    Task<Cart> CreateCart(Cart cart, int foodTruckId, int userId);
+
+    // get a cart
+    Task<Cart> GetCart(int foodtruckid, int userId, int id);
+
+    // get all cart details - int userId, int cartId
+    Task<IEnumerable<CartItemDetail>> GetCartItemDetails();
+
+    // get a cart detail - int userId, int cartId, 
+    Task<CartItemDetail> GetCartItemDetail(int id);
+
+    Task<Cart> DeleteCart(int id, int foodTruckId, int userId);
+
     // complete purchase of items in cart
     Task<Cart> CompletePurchase(int id);
+
+    // get order
+    Task<Cart> GetOrder(int foodtruckid, int userId, int id);
 
     // fill order
     Task<Cart> FillOrder(int id);
 
+    // get all filled orders 
+    Task<IEnumerable<Cart>> GetOrderHistory(int foodtruckid, int userId);
+
+
+// update qty of item in cart
+    Task<CartItemDetail> AddCartItem(int id, int foodTruckId, int userId, int itemId, int qty);
+
+    // get a item - 
+    Task<Item> GetItem(int foodTruckId, int menuId, int id);
+
+    // get all items - int foodTruckId, int menuId
+    Task<IEnumerable<Item>> GetItems(int foodTruckId, int menuId);
+
+
     // update qty of item in cart
     Task<CartItemDetail> UpdateItem(int id, int itemId, int qty);
+
+    // delete item from cart
+    Task<Cart> DeleteItem(int id, int foodTruckId, int userId,int itemId);
   }
 }
