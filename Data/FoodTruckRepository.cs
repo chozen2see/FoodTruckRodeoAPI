@@ -52,9 +52,10 @@ namespace Data
     {
 
       var cart = await _context.Carts
-        // .Include("CartItemDetails.Item")
-        // .Include(c => c.CartItemDetails)
-        // .Include(c => c.FoodTruckUser)
+      // TODO: WILL THIS MESS UP ANOTHER SECTION IF I ADD INCLUDES BACK
+        .Include("CartItemDetails.Item")
+        .Include(c => c.CartItemDetails)
+        .Include(c => c.FoodTruckUser)
         .Where(c =>
         c.FoodTruckUser.FoodTruckId == foodtruckid &&
         c.FoodTruckUser.UserId == userId &&

@@ -76,7 +76,7 @@ namespace FoodTruckRodeo.API.Controllers
       return Ok(cartToReturn);
     }
 
-        // REMOVE CART
+    // REMOVE CART
     [HttpDelete("{id}/foodtruck/{foodTruckId}/user/{userId}")]
     public async Task<IActionResult> DeleteCart(int id, int foodTruckId, int userId)
     {
