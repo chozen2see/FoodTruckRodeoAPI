@@ -28,9 +28,6 @@ namespace FoodTruckRodeo.API.Migrations
                     b.Property<string>("Address2")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AddressUrlEscaped")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
@@ -44,9 +41,6 @@ namespace FoodTruckRodeo.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MapUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -105,7 +99,7 @@ namespace FoodTruckRodeo.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CartId")
+                    b.Property<int?>("CartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
@@ -117,8 +111,6 @@ namespace FoodTruckRodeo.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("CartItemDetails");
                 });
@@ -323,17 +315,9 @@ namespace FoodTruckRodeo.API.Migrations
 
             modelBuilder.Entity("Models.CartItemDetail", b =>
                 {
-                    b.HasOne("Models.Cart", "Cart")
+                    b.HasOne("Models.Cart", null)
                         .WithMany("CartItemDetails")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Models.Item", "Item")
-                        .WithMany("CartItemDetails")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartId");
                 });
 
             modelBuilder.Entity("Models.ContactRequest", b =>
