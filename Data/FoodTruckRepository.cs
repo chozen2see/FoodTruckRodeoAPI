@@ -48,7 +48,7 @@ namespace Data
 
     // User adding to cart. Not purchased.
     // IsPurchased == 0  | IsOrderFilled == 0
-    public async Task<Cart> GetCart(int foodtruckid, int userId, int id)
+    public async Task<Cart> GetCart(int foodTruckId, int userId, int id)
     {
 
       var cart = await _context.Carts
@@ -57,15 +57,33 @@ namespace Data
         .Include(c => c.CartItemDetails)
         .Include(c => c.FoodTruckUser)
         .Where(c =>
-        c.FoodTruckUser.FoodTruckId == foodtruckid &&
+        c.FoodTruckUser.FoodTruckId == foodTruckId &&
         c.FoodTruckUser.UserId == userId &&
         c.IsPurchaseComplete == false &&
         c.IsOrderFilled == false
         )
         .FirstOrDefaultAsync(c => c.Id == id || id == 0);
 
+      if (cart == null)
+      {
+        // 2. IF NOT CREATE CART
+        cart = await CreateCart(cart, foodTruckId, userId);
+      }
+
       return cart;
 
+    }
+
+    public async Task<Cart> GetCartById(int id, bool purchaseComplete, bool orderFilled) 
+    {
+        var cart = await _context.Carts
+        .Where(c =>
+        c.IsPurchaseComplete == purchaseComplete &&
+        c.IsOrderFilled == orderFilled
+        )
+        .FirstOrDefaultAsync(c => c.Id == id);
+
+        return cart;
     }
 
     public async Task<CartItemDetail> GetCartItemDetail(int id)
@@ -308,11 +326,13 @@ namespace Data
       }
 
       // 3. IS ITEM ALREADY IN CART? IF SO, UPDATE TO QTY 22.19
-      if (_context.CartItemDetails.Any(
-        c => c.CartId == cart.Id && c.ItemId == itemId
-      ))
+      var itemInCart = await _context.CartItemDetails.FirstOrDefaultAsync(
+        c => c.CartId == id && c.ItemId == itemId
+      );
+      if (itemInCart != null)
       {
-        await UpdateItem(cart.Id, itemId, qty);
+        var updatedQty = itemInCart.Quantity + 1;
+        await UpdateItem(id, itemId, updatedQty);
       }
       else
       {
@@ -323,7 +343,7 @@ namespace Data
         {
           Quantity = qty,
           ItemId = itemId,
-          CartId = cart.Id
+          CartId = id
         };
 
         await _context.CartItemDetails.AddAsync(cartItem);
@@ -357,6 +377,9 @@ namespace Data
       item.Quantity = qty;
 
       await SaveAll();
+
+      // get and update the cart
+      var updatedCart = await UpdateCart(await GetCartById(id, false, false));
 
       return item;
     }
